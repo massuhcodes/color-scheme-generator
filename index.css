@@ -1,0 +1,54 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+form {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+header {
+    padding: 30px 0;
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    background-color: white;
+    box-shadow: 0 4px 10px -4px #222;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+input[type="button"],
+select {
+    padding: 0 10px;
+    font-size: 1.05rem;
+}
+
+#color-picker {
+    height: 3.5em;
+    width: 10%;
+}
+
+p.colorName {
+    border: 1.5px solid rgb(70, 70, 70);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+select {
+    width: 30%;
+    text-align: center;
+}
+
+div#color-scheme-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    position: relative;
+}
