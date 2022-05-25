@@ -18,7 +18,7 @@ function displayColorScheme(seed) {
                 const textColor =
                     totalRGBValue <= midRGBValue ? "white" : "black";
                 html += `
-                    <div style="background-color:${color.hex.value}; width:20%;display:flex;justify-content:center;align-items:center;"><p style="margin:0; color:${textColor}; font-size:1.1rem; letter-spacing:0.1rem">${color.hex.clean}<p></div>
+                    <div class="color-bar" style="background-color:${color.hex.value};"><p class= "text-color-bar" style="color:${textColor};">${color.hex.clean}<p></div>
                 `;
             }
             colorSchemeContainerEl.innerHTML = html;

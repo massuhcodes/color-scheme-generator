@@ -52,3 +52,28 @@ div#color-scheme-container {
     display: flex;
     position: relative;
 }
+
+.color-bar {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-color-bar {
+    margin: 0;
+    font-size: 1.1rem;
+    letter-spacing: 0.1rem;
+}
+
+@media screen and (max-width: 1000px) {
+    div#color-scheme-container {
+        flex-direction: column;
+        height: 88.5vh;
+    }
+
+    .color-bar {
+        width: 100%;
+        height: 50%;
+    }
+}
