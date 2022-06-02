@@ -77,3 +77,15 @@ div#color-scheme-container {
         height: 50%;
     }
 }
+
+@media screen and (max-width: 600px) {
+    form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input[type="button"],
+    select {
+        width: 60%;
+    }
+}
