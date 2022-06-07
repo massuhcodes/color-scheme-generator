@@ -21,7 +21,10 @@ function displayColorScheme(seed) {
                     <div class="color-bar" style="background-color:${color.hex.value};"><p class= "text-color-bar" style="color:${textColor};">${color.hex.clean}<p></div>
                 `;
             }
-            colorSchemeContainerEl.innerHTML = html;
+            let spacer = `
+                <div id="spacer"></div>
+            `;
+            colorSchemeContainerEl.innerHTML = spacer + html;
         });
 }
 

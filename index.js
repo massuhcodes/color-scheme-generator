@@ -11,6 +11,10 @@ const headerEl = document.getElementById("header");
 // display default scheme
 displayColorScheme(colorPickerEl.value.slice(1), "monochrome");
 
+window.addEventListener("DOMContnetLoaded", (event) => {
+    console.log(document.getElementById("spacer"));
+    console.log("loaded");
+});
 /*-------------
 Event Listeners
 ---------------*/
@@ -27,17 +31,37 @@ document
         displayColorScheme(generateRandomColor());
     });
 
-window
-    .matchMedia("screen and (max-width: 1000px)")
-    .addEventListener("change", (event) => {
-        if (event.matches) {
-            colorSchemeContainerEl.style.paddingTop = `${headerEl.offsetHeight}px`;
-            console.log(headerEl.offsetHeight);
-            const colorBars = document.getElementsByClassName("color-bar");
-            // for (const bar of colorBars) {
-            //     bar.style.height = `${height}%`;
-            // }
-        } else {
-            console.log("more than 1000px");
-        }
-    });
+// window
+//     .matchMedia("screen and (max-width: 500px)")
+//     .addEventListener("change", (event) => {
+//         if (event.matches) {
+//             columnLayout();
+//         }
+//     });
+
+// window
+//     .matchMedia("screen and (min-width: 501px)")
+//     .addEventListener("change", (event) => {
+//         if (event.matches) {
+//             rowLayout();
+//         }
+//     });
+
+// function columnLayout() {
+//     document.getElementById(
+//         "spacer"
+//     ).style.height = `${headerEl.offsetHeight}px`;
+//     let barHeight =
+//         (colorSchemeContainerEl.offsetHeight - headerEl.offsetHeight) / 5;
+//     const colorBars = document.getElementsByClassName("color-bar");
+//     for (const bar of colorBars) {
+//         bar.style.height = `${barHeight}px`;
+//     }
+// }
+
+// function rowLayout() {
+//     const colorBars = document.getElementsByClassName("color-bar");
+//     for (const bar of colorBars) {
+//         bar.style.height = `${colorSchemeContainerEl.offsetHeight}px`;
+//     }
+// }
