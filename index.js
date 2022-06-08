@@ -1,6 +1,3 @@
-import { displayColorScheme, generateRandomColor } from "./utilities.js";
-export { colorPickerEl, colorSchemeContainerEl, colorModeEl };
-
 const colorPickerEl = document.getElementById("color-picker");
 const colorSchemeContainerEl = document.getElementById(
     "color-scheme-container"
@@ -11,10 +8,6 @@ const headerEl = document.getElementById("header");
 // display default scheme
 displayColorScheme(colorPickerEl.value.slice(1), "monochrome");
 
-window.addEventListener("DOMContnetLoaded", (event) => {
-    console.log(document.getElementById("spacer"));
-    console.log("loaded");
-});
 /*-------------
 Event Listeners
 ---------------*/
@@ -31,37 +24,85 @@ document
         displayColorScheme(generateRandomColor());
     });
 
-// window
-//     .matchMedia("screen and (max-width: 500px)")
-//     .addEventListener("change", (event) => {
-//         if (event.matches) {
-//             columnLayout();
-//         }
-//     });
+// does not seem to work when page is loaded
+window.addEventListener("load", () => {
+    window.innerWidth <= 750 ? columnLayout() : rowLayout();
+});
 
-// window
-//     .matchMedia("screen and (min-width: 501px)")
-//     .addEventListener("change", (event) => {
-//         if (event.matches) {
-//             rowLayout();
-//         }
-//     });
+window
+    .matchMedia("screen and (max-width: 750px)")
+    .addEventListener("change", (event) => {
+        if (event.matches) {
+            columnLayout();
+        }
+    });
 
-// function columnLayout() {
-//     document.getElementById(
-//         "spacer"
-//     ).style.height = `${headerEl.offsetHeight}px`;
-//     let barHeight =
-//         (colorSchemeContainerEl.offsetHeight - headerEl.offsetHeight) / 5;
-//     const colorBars = document.getElementsByClassName("color-bar");
-//     for (const bar of colorBars) {
-//         bar.style.height = `${barHeight}px`;
-//     }
-// }
+window
+    .matchMedia("screen and (min-width: 751px)")
+    .addEventListener("change", (event) => {
+        if (event.matches) {
+            rowLayout();
+        }
+    });
 
-// function rowLayout() {
-//     const colorBars = document.getElementsByClassName("color-bar");
-//     for (const bar of colorBars) {
-//         bar.style.height = `${colorSchemeContainerEl.offsetHeight}px`;
-//     }
-// }
+function columnLayout() {
+    document.getElementById(
+        "spacer"
+    ).style.height = `${headerEl.offsetHeight}px`;
+    const colorBars = document.getElementsByClassName("color-bar");
+    let barHeight =
+        (colorSchemeContainerEl.offsetHeight - headerEl.offsetHeight) / 5;
+    for (const bar of colorBars) {
+        console.log(bar);
+        bar.style.height = `${barHeight}px`;
+    }
+}
+
+function rowLayout() {
+    console.log("row");
+    const colorBars = document.getElementsByClassName("color-bar");
+    for (const bar of colorBars) {
+        bar.style.height = `${colorSchemeContainerEl.offsetHeight}px`;
+    }
+}
+
+// display color scheme based on user-picked color (or randomized color) and mode
+function displayColorScheme(seed) {
+    const mode = colorModeEl.value;
+    // fetch the scheme using an api
+    fetch(`https://www.thecolorapi.com/scheme?hex=${seed}&mode=${mode}`)
+        // convert the data from json
+        .then((response) => response.json())
+        // manipulate the data
+        .then((data) => {
+            let html = "";
+            for (const color of data.colors) {
+                const totalRGBValue = color.rgb.r + color.rgb.g + color.rgb.b;
+                // 127 + 127 + 127 (the middle threshold)
+                const midRGBValue = 381;
+                const textColor =
+                    totalRGBValue <= midRGBValue ? "white" : "black";
+                html += `
+                    <div class="color-bar" style="background-color:${color.hex.value};"><p class= "text-color-bar" style="color:${textColor};">${color.hex.clean}<p></div>
+                `;
+            }
+            let spacer = `
+                <div id="spacer"></div>
+            `;
+            colorSchemeContainerEl.innerHTML = spacer + html;
+        });
+}
+
+// generate a random color in hex format
+function generateRandomColor() {
+    const characters = "0123456789ABCDEF";
+    const maxLength = 6;
+    let color = "";
+    for (let i = 0; i < maxLength; i++) {
+        color += characters.charAt(
+            Math.floor(Math.random() * characters.length)
+        );
+    }
+    colorPickerEl.value = "#" + color;
+    return color;
+}
