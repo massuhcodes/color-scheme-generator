@@ -1,3 +1,5 @@
+import { generateRandomColor } from "./utilities.js";
+
 const colorPickerEl = document.getElementById("color-picker");
 const colorSchemeContainerEl = document.getElementById(
     "color-scheme-container"
@@ -24,11 +26,6 @@ document
         displayColorScheme(generateRandomColor());
     });
 
-// does not seem to work when page is loaded
-window.addEventListener("load", () => {
-    window.innerWidth <= 750 ? columnLayout() : rowLayout();
-});
-
 window
     .matchMedia("screen and (max-width: 750px)")
     .addEventListener("change", (event) => {
@@ -45,7 +42,7 @@ window
         }
     });
 
-function columnLayout() {
+const columnLayout = () => {
     document.getElementById(
         "spacer"
     ).style.height = `${headerEl.offsetHeight}px`;
@@ -56,15 +53,14 @@ function columnLayout() {
         console.log(bar);
         bar.style.height = `${barHeight}px`;
     }
-}
+};
 
-function rowLayout() {
-    console.log("row");
+const rowLayout = () => {
     const colorBars = document.getElementsByClassName("color-bar");
     for (const bar of colorBars) {
         bar.style.height = `${colorSchemeContainerEl.offsetHeight}px`;
     }
-}
+};
 
 // display color scheme based on user-picked color (or randomized color) and mode
 function displayColorScheme(seed) {
@@ -83,26 +79,17 @@ function displayColorScheme(seed) {
                 const textColor =
                     totalRGBValue <= midRGBValue ? "white" : "black";
                 html += `
-                    <div class="color-bar" style="background-color:${color.hex.value};"><p class= "text-color-bar" style="color:${textColor};">${color.hex.clean}<p></div>
+                    <div class="color-bar" style="background-color:${color.hex.value};">
+                        <p class= "text-color-bar" style="color:${textColor};">${color.hex.clean}<p>
+                    </div>
                 `;
             }
             let spacer = `
                 <div id="spacer"></div>
             `;
             colorSchemeContainerEl.innerHTML = spacer + html;
-        });
-}
 
-// generate a random color in hex format
-function generateRandomColor() {
-    const characters = "0123456789ABCDEF";
-    const maxLength = 6;
-    let color = "";
-    for (let i = 0; i < maxLength; i++) {
-        color += characters.charAt(
-            Math.floor(Math.random() * characters.length)
-        );
-    }
-    colorPickerEl.value = "#" + color;
-    return color;
+            // determine the layout based on the width of the window
+            window.innerWidth <= 750 ? columnLayout() : rowLayout();
+        });
 }
