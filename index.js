@@ -1,5 +1,3 @@
-import { generateRandomColor } from "./utilities.js";
-
 const colorPickerEl = document.getElementById("color-picker");
 const colorSchemeContainerEl = document.getElementById(
     "color-scheme-container"
@@ -50,7 +48,6 @@ const columnLayout = () => {
     let barHeight =
         (colorSchemeContainerEl.offsetHeight - headerEl.offsetHeight) / 5;
     for (const bar of colorBars) {
-        console.log(bar);
         bar.style.height = `${barHeight}px`;
     }
 };
@@ -85,11 +82,25 @@ function displayColorScheme(seed) {
                 `;
             }
             let spacer = `
-                <div id="spacer"></div>
+                <div id="spacer" style="background-color:${data.colors[0].hex.value}"></div>
             `;
             colorSchemeContainerEl.innerHTML = spacer + html;
 
             // determine the layout based on the width of the window
             window.innerWidth <= 750 ? columnLayout() : rowLayout();
         });
+}
+
+// generate a random color in hex format
+function generateRandomColor() {
+    const characters = "0123456789ABCDEF";
+    const maxLength = 6;
+    let color = "";
+    for (let i = 0; i < maxLength; i++) {
+        color += characters.charAt(
+            Math.floor(Math.random() * characters.length)
+        );
+    }
+    colorPickerEl.value = "#" + color;
+    return color;
 }
